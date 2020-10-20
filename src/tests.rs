@@ -1,5 +1,5 @@
-use piko::client::{ClientReq, ClientRes};
-use std::net::{IpAddr, Ipv4Addr, SocketAddrV4, TcpStream, SocketAddr};
+
+use std::net::{IpAddr, Ipv4Addr, SocketAddrV4, SocketAddr};
 use std::str::FromStr;
 
 #[cfg(test)]
@@ -20,7 +20,7 @@ mod tests {
             let req = ClientReq::publ(CLIENT_ID, i.to_string().as_bytes().to_vec());
             let res = input(&socket_addr, req);
             match res {
-                ClientRes::Error { message } => { assert!(false) }
+                ClientRes::Error { message: _ } => { assert!(false) }
                 _ => {}
             }
             if i % (runs/10) == 0 {println!("{}%", 100*i/runs)}
