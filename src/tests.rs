@@ -12,18 +12,18 @@ mod tests {
     const CLIENT_ID: u64 = 0000; //test id
 
     #[test]
-    fn test_throughput_single_node() {
-        let runs: usize = 100;
+    fn test_throughput_two_nodes() {
+        let runs: usize = 1000;
         let socket_addr = get_adrr();
         let timer = Instant::now();
         for i in 0..runs {
-            let req = ClientReq::publ(CLIENT_ID, i.to_be_bytes().to_vec());
+            let req = ClientReq::publ(CLIENT_ID, i.to_string().as_bytes().to_vec());
             let res = input(&socket_addr, req);
             match res {
                 ClientRes::Error { message } => { assert!(false) }
                 _ => {}
             }
-            if i % 10 == 0 {println!("{}%", 100*i/runs)}
+            if i % (runs/10) == 0 {println!("{}%", 100*i/runs)}
         }
         println!("Test took {:.2?}, avg {} ops/s", timer.elapsed(), runs as f64/timer.elapsed().as_secs_f64())
     }
